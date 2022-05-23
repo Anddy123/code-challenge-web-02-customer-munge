@@ -95,7 +95,22 @@ Output:
 */
 
 export function getGenderBreakdownOfFordOwners(customers) {
-    return true;
+    //first filter so we just have the ford users
+    //then hashmap reduce to get the gender breakdown object
+    const fordCustomers = customers.filter(customer => customer.car_make === 'Ford');
+
+    const fordGenderObj = fordCustomers.reduce((acc, customer) => {
+        if(acc[customer.gender]) {
+            acc[customer.gender]++;
+        }
+        else {
+            acc[customer.gender] = 1;
+        }
+        // console.log(acc);
+        return acc;
+    }, {});
+
+    return fordGenderObj;
 }
 
 /* 
