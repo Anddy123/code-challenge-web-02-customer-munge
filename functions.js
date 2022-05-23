@@ -178,7 +178,21 @@ Output:
 
 
 export function getAllCoolFactorsOfEachCar(customers) {
-    return true;
+
+    const object = customers.reduce((acc, customer) => {
+        if(acc[customer.car_make]) {
+            acc[customer.car_make] = [...acc[customer.car_make], customer.cool_factor]; 
+        }
+        else {
+            acc[customer.car_make] = [customer.cool_factor];
+            
+        }
+
+        return acc;
+    }, {});
+
+
+    return object;
 }
 
 /////////////////////////////// STRETCH GOALS ///////////////////////////////////////
