@@ -4,8 +4,11 @@ Output:
 */
 
 export function greetUsers(customers) {
-     // just map over them to make a greeting
-    return true;
+    // just map over them to make a greeting
+    const greetings = customers.map((customer) =>
+    `Hello ${customer.first_name} ${customer.last_name}!`
+);
+return greetings;
 }
 
 /* 
@@ -14,7 +17,8 @@ Output:
 */
 
 export function greetUsersOverAge60(customers) {
-    return customers
+    const over60 = customers.filter(customer => customer.age > 60);
+    return greetUsers(over60);
         // first, filter over the user to get the ones over 60
         // then map over them to make a greeting
 }
@@ -26,8 +30,14 @@ Output:
 */
 
 export function addAllAges(customers) {
-    // reduce through the customers to make a sum
-    return true;
+    //reduce here to accumulate the sum
+    const sum = customers.reduce((acc, customer) => {
+        acc = acc + customer.age;
+
+        return acc;
+    }, 0);
+
+    return sum;
 }
 
 /* 
