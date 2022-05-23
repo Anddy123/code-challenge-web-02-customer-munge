@@ -4,8 +4,11 @@ Output:
 */
 
 export function greetUsers(customers) {
-     // just map over them to make a greeting
-    return true;
+    // just map over them to make a greeting
+    const greetings = customers.map((customer) =>
+    `Hello ${customer.first_name} ${customer.last_name}!`
+);
+return greetings;
 }
 
 /* 
@@ -14,7 +17,8 @@ Output:
 */
 
 export function greetUsersOverAge60(customers) {
-    return customers
+    const over60 = customers.filter(customer => customer.age > 60);
+    return greetUsers(over60);
         // first, filter over the user to get the ones over 60
         // then map over them to make a greeting
 }
@@ -26,8 +30,14 @@ Output:
 */
 
 export function addAllAges(customers) {
-    // reduce through the customers to make a sum
-    return true;
+    //reduce here to accumulate the sum
+    const sum = customers.reduce((acc, customer) => {
+        acc = acc + customer.age;
+
+        return acc;
+    }, 0);
+
+    return sum;
 }
 
 /* 
@@ -36,10 +46,15 @@ Output:
 */
 
 export function getAverageCoolFactor(customers) {
-    // map through to make an array of cool factors
-    // then reduce through that array to get a sum
-    // then divide by the total number of customers
-    return true;
+    const sum = customers.reduce((acc, customer) => {
+        acc = acc + customer.cool_factor;
+
+        return acc;
+    }, 0);
+
+    const ave = sum / customers.length;
+
+    return ave;
 }
 
 /* 
@@ -53,7 +68,20 @@ Output:
 */
 
 export function getTotalOfEachGender(customers) {
-    return true;
+    const totalGendersObj = customers.reduce((acc, customer) => {
+        //if there is a gender key in the object already that matches increment it
+        if(acc[customer.gender]) {
+            acc[customer.gender]++;
+        } 
+        //else if there is not a gender key in the object yet, then create one with a value 1
+        else {
+            acc[customer.gender] = 1;
+        }
+        //return the whole object accumulator
+        return acc;
+    }, {});
+
+    return totalGendersObj;
 }
 
 /* 
@@ -67,7 +95,22 @@ Output:
 */
 
 export function getGenderBreakdownOfFordOwners(customers) {
-    return true;
+    //first filter so we just have the ford users
+    //then hashmap reduce to get the gender breakdown object
+    const fordCustomers = customers.filter(customer => customer.car_make === 'Ford');
+
+    const fordGenderObj = fordCustomers.reduce((acc, customer) => {
+        if(acc[customer.gender]) {
+            acc[customer.gender]++;
+        }
+        else {
+            acc[customer.gender] = 1;
+        }
+        // console.log(acc);
+        return acc;
+    }, {});
+
+    return fordGenderObj;
 }
 
 /* 
@@ -88,7 +131,39 @@ Output:
 */
 
 export function getGenderBreakdownOfEachCar(customers) {
-    return true;
+
+    const carBrands = customers.reduce((acc, customer) => {
+        if(acc.includes(customer.car_make)) {
+            null;
+        }
+        else {
+            acc.push(customer.car_make);
+        }
+        return acc;
+    }, []);
+    
+    const genderBreakdownByMake = carBrands.map(brand => {
+        const brandGenderObj = customers.reduce((acc, customer) => {
+            if(brand === customer.car_make) {
+                if(acc[customer.gender]) {
+                    acc[customer.gender]++;
+                }
+                else {
+                    acc[customer.gender] = 1;
+                }
+            }
+            return acc;
+        }, {});
+
+        
+        return {
+            [brand]: brandGenderObj
+        };
+    });
+    
+    return genderBreakdownByMake;
+
+
 }
 
 /* 
@@ -103,7 +178,21 @@ Output:
 
 
 export function getAllCoolFactorsOfEachCar(customers) {
-    return true;
+
+    const object = customers.reduce((acc, customer) => {
+        if(acc[customer.car_make]) {
+            acc[customer.car_make] = [...acc[customer.car_make], customer.cool_factor]; 
+        }
+        else {
+            acc[customer.car_make] = [customer.cool_factor];
+            
+        }
+
+        return acc;
+    }, {});
+
+
+    return object;
 }
 
 /////////////////////////////// STRETCH GOALS ///////////////////////////////////////
@@ -123,7 +212,28 @@ Output:
 */
 
 export function getAverageCoolFactorOfEachCar(customers) {
-    return true;
+    const countAndTotalObjs = customers.reduce((acc, customer) => {
+        if(acc[customer.car_make]) {
+            acc[customer.car_make].total = acc[customer.car_make].total + customer.cool_factor;
+            acc[customer.car_make].count++;
+        }
+        else {
+            acc[customer.car_make] = {};
+            acc[customer.car_make].total = customer.cool_factor;
+            acc[customer.car_make].count = 1;
+        
+        }
+
+        return acc;
+    }, {});
+    const aveObj = Object.entries(countAndTotalObjs)
+        .reduce((acc, entry) => {
+            acc = { ...acc, [entry[0]]: (entry[1].total / entry[1].count) };
+            return acc;
+        }, {});
+
+    return aveObj;
+
 }
 
 
