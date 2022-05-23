@@ -212,7 +212,28 @@ Output:
 */
 
 export function getAverageCoolFactorOfEachCar(customers) {
-    return true;
+    const countAndTotalObjs = customers.reduce((acc, customer) => {
+        if(acc[customer.car_make]) {
+            acc[customer.car_make].total = acc[customer.car_make].total + customer.cool_factor;
+            acc[customer.car_make].count++;
+        }
+        else {
+            acc[customer.car_make] = {};
+            acc[customer.car_make].total = customer.cool_factor;
+            acc[customer.car_make].count = 1;
+        
+        }
+
+        return acc;
+    }, {});
+    const aveObj = Object.entries(countAndTotalObjs)
+        .reduce((acc, entry) => {
+            acc = { ...acc, [entry[0]]: (entry[1].total / entry[1].count) };
+            return acc;
+        }, {});
+
+    return aveObj;
+
 }
 
 
