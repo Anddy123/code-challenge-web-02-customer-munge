@@ -68,7 +68,20 @@ Output:
 */
 
 export function getTotalOfEachGender(customers) {
-    return true;
+    const totalGendersObj = customers.reduce((acc, customer) => {
+        //if there is a gender key in the object already that matches increment it
+        if(acc[customer.gender]) {
+            acc[customer.gender]++;
+        } 
+        //else if there is not a gender key in the object yet, then create one with a value 1
+        else {
+            acc[customer.gender] = 1;
+        }
+        //return the whole object accumulator
+        return acc;
+    }, {});
+
+    return totalGendersObj;
 }
 
 /* 
