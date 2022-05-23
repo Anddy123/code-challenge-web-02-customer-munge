@@ -46,10 +46,15 @@ Output:
 */
 
 export function getAverageCoolFactor(customers) {
-    // map through to make an array of cool factors
-    // then reduce through that array to get a sum
-    // then divide by the total number of customers
-    return true;
+    const sum = customers.reduce((acc, customer) => {
+        acc = acc + customer.cool_factor;
+
+        return acc;
+    }, 0);
+
+    const ave = sum / customers.length;
+
+    return ave;
 }
 
 /* 
